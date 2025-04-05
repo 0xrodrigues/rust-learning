@@ -7,19 +7,19 @@ fn main() {
     ];
 
     loop {
-        println!("\nLista de comandos:");
-        println!("1. Listar pastas");
-        println!("2. Criar pasta");
-        println!("3. Excluir pasta");
-        println!("0. Sair");
+        println!("\nCommand list:");
+        println!("1. List folders");
+        println!("2. Create folder");
+        println!("3. Delete folder");
+        println!("0. Exit");
 
         let mut input_line = String::new();
-        io::stdin().read_line(&mut input_line).expect("Erro ao ler input");
+        io::stdin().read_line(&mut input_line).expect("Failed to read input");
 
         let command: i32 = match input_line.trim().parse() {
             Ok(n) => n,
             Err(_) => {
-                println!("Comando inválido");
+                println!("Invalid command");
                 continue;
             }
         };
@@ -29,7 +29,7 @@ fn main() {
             1 => listing(&folders),
             2 => create_folder(&mut folders),
             3 => exclude_folder(&mut folders),
-            _ => println!("Comando inválido"),
+            _ => println!("Invalid command"),
         }
     }
 }
@@ -37,30 +37,30 @@ fn main() {
 fn create_folder(folders: &mut Vec<String>) {
     let mut folder_name = String::new();
 
-    println!("Digite o nome da pasta: ");
+    println!("Enter folder name: ");
     io::stdin()
         .read_line(&mut folder_name)
-        .expect("Falha ao ler entrada");
+        .expect("Failed to read input");
 
     folder_name = folder_name.trim().to_string();
 
     folders.push(folder_name.clone());
 
-    println!("Pasta {} criada com sucesso!",folder_name );
+    println!("Folder {} created successfully!", folder_name);
 }
 
 fn exclude_folder(folders: &mut Vec<String>) {
     if folders.is_empty() {
-        println!("Nenhuma pasta para remover.");
+        println!("No folders to remove.");
         return;
     }
 
     let mut folder_name = String::new();
 
-    println!("Digite o nome da pasta que deseja remover: ");
+    println!("Enter the name of the folder you want to remove: ");
     io::stdin()
         .read_line(&mut folder_name)
-        .expect("Falha ao ler entrada");
+        .expect("Failed to read input");
 
     folder_name = folder_name.trim().to_string();
 
@@ -68,14 +68,14 @@ fn exclude_folder(folders: &mut Vec<String>) {
     folders.retain(|folder| folder != &folder_name);
 
     if folders.len() < original_len {
-        println!("Pasta {} excluída com sucesso!", folder_name);
+        println!("Folder {} successfully deleted!", folder_name);
     } else {
-        println!("Pasta {} não encontrada.", folder_name);
+        println!("Folder {} not found.", folder_name);
     }
 }
 
 fn listing(folders: &Vec<String>) {
     for folder in folders.iter() {
-        println!("Pasta: {}", folder);
+        println!("Folder: {}", folder);
     }
 }
