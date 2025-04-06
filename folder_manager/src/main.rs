@@ -44,6 +44,11 @@ fn create_folder(folders: &mut Vec<String>) {
 
     folder_name = folder_name.trim().to_string();
 
+    if folders.contains(&folder_name) {
+        println!("Folder already exists");
+        return;
+    }
+
     folders.push(folder_name.clone());
 
     println!("Folder {} created successfully!", folder_name);
