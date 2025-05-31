@@ -9,24 +9,7 @@ struct Folder {
 }
 
 fn main() {
-
-    let initial_folder = Folder {
-        name: String::from("Downloads"),
-        path: String::from("batman/home"),
-        private: false
-    };
-
-    let second_folder = Folder {
-        name: String::from("Documents"),
-        path: String::from("batman/home"),
-        private: false
-    };
-
-    let mut folders: Vec<Folder> = vec![
-        initial_folder.into(),
-        second_folder.into()
-    ];
-
+    let mut folders: Vec<Folder> = get_initial_folder();
     let mut is_folders_checked: bool = false;
 
     loop {
@@ -135,6 +118,25 @@ fn check_folders(folders: &Vec<Folder>) {
         println!("Checking folder: {}", folder.name);
     }
     println!("####### All folders checked #######");
+}
+
+fn get_initial_folder() -> Vec<Folder> {
+        let initial_folder = Folder {
+        name: String::from("Downloads"),
+        path: String::from("batman/home"),
+        private: false
+    };
+
+    let second_folder = Folder {
+        name: String::from("Documents"),
+        path: String::from("batman/home"),
+        private: false
+    };
+
+    return vec![
+        initial_folder.into(),
+        second_folder.into()
+    ];
 }
 
 // fn list_dir() {
