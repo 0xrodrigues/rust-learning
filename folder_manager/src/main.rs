@@ -1,10 +1,30 @@
 use std::io::{self};
 // use std::process::Command;
 
+
+struct Folder {
+    name: String,
+    path: String,
+    private: bool
+}
+
 fn main() {
-    let mut folders: Vec<String> = vec![
-        "Downloads".into(),
-        "Documents".into()
+
+    let initial_folder = Folder {
+        name: String::from("Downloads"),
+        path: String::from("batman/home"),
+        private: false
+    };
+
+    let second_folder = Folder {
+        name: String::from("Documents"),
+        path: String::from("batman/home"),
+        private: false
+    };
+
+    let mut folders: Vec<Folder> = vec![
+        initial_folder.into(),
+        second_folder.into()
     ];
 
     let mut is_folders_checked: bool = false;
@@ -47,32 +67,46 @@ fn main() {
     }
 }
 
-fn create_folder(folders: &mut Vec<String>) {
+fn create_folder(folders: &mut Vec<Folder>) {
     let mut folder_name = String::new();
+    let mut folder_path = String::new();
 
     println!("Enter folder name: ");
     io::stdin()
         .read_line(&mut folder_name)
         .expect("Failed to read input");
+    println!("Enter folder path: ");
+    io::stdin()
+        .read_line(&mut folder_path)
+        .expect("Failed to read input");
 
     folder_name = folder_name.trim().to_string();
 
-    if folders.contains(&folder_name) {
-        println!("Folder already exists");
-        return;
+    let new_folder = Folder {
+        name: folder_name.trim().to_string(),
+        path: folder_path.trim().to_string(),
+        private: false
+    };
+
+    for folder in folders.iter_mut() {
+         if folder.name == folder_name {
+            println!("Folder already exists");
+            return;
+        }
     }
 
-    folders.push(folder_name.clone());
+    folders.push(new_folder);
 
     println!("Folder {} created successfully!", folder_name);
 }
 
-fn exclude_folder(folders: &mut Vec<String>) {
+fn exclude_folder(folders: &mut Vec<Folder>) {
     if folders.is_empty() {
         println!("No folders to remove.");
         return;
     }
 
+    let original_len = folders.len();
     let mut folder_name = String::new();
 
     println!("Enter the name of the folder you want to remove: ");
@@ -80,10 +114,7 @@ fn exclude_folder(folders: &mut Vec<String>) {
         .read_line(&mut folder_name)
         .expect("Failed to read input");
 
-    folder_name = folder_name.trim().to_string();
-
-    let original_len = folders.len();
-    folders.retain(|folder| folder != &folder_name);
+    folders.retain(|folder| folder.name != folder_name.trim().to_string());
 
     if folders.len() < original_len {
         println!("Folder {} successfully deleted!", folder_name);
@@ -92,16 +123,16 @@ fn exclude_folder(folders: &mut Vec<String>) {
     }
 }
 
-fn listing(folders: &Vec<String>) {
-    for folder in folders.iter() {
-        println!("Folder: {}", folder);
+fn listing(folders: &Vec<Folder>) {
+    for folder in folders {
+        println!("Folder: {} | Path: {} | isPrivate: {}", folder.name, folder.path, folder.private);
     }
 }
 
-fn check_folders(folders: &Vec<String>) {
+fn check_folders(folders: &Vec<Folder>) {
 
     for folder in folders.iter() {
-        println!("Checking folder: {}", folder);
+        println!("Checking folder: {}", folder.name);
     }
     println!("####### All folders checked #######");
 }
